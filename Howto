@@ -1,0 +1,7 @@
+di terminal jalananin::
+
+cp .env.example .env
+
+run normally
+
+go run main.go

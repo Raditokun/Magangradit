@@ -1,0 +1,26 @@
+package middleware
+
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+)
+
+
+func SetupMiddleware(app *fiber.App) {
+	
+	app.Use(recover.New())
+
+	
+	app.Use(logger.New(logger.Config{
+		Format: "${time} | ${status} | ${latency} | ${ip} | ${method} | ${path}\n", //https requeats
+	}))
+
+	
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
+}

@@ -1,6 +1,7 @@
-package models
+package model
 
 import "time"
+
 
 type Driver struct {
 	ID        int        `json:"id"`
@@ -15,12 +16,14 @@ type Driver struct {
 	DeletedBy *string    `json:"deleted_by"`
 }
 
+
 type UpdateDriverRequest struct {
 	Nama      string `json:"nama"`
 	NIP       string `json:"nip"`
 	Foto      string `json:"foto"`
 	UpdatedBy string `json:"updated_by"`
 }
+
 
 type DeleteDriverRequest struct {
 	DeletedBy string `json:"deleted_by"`

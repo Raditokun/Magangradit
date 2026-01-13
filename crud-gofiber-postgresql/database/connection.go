@@ -8,20 +8,48 @@ import (
 	_ "github.com/lib/pq"
 )
 
+
 var DB *sql.DB
 
-func Connect() {
 
-	connStr := "host=localhost user=postgres password=040407 dbname=Silogis port=5432 sslmode=disable"
+type DBConfig struct {
+	Host     string
+	Port     string
+	User     string
+	Password string
+	Name     string
+	SSLMode  string
+}
+
+
+func Connect(cfg DBConfig) error {
+	connStr := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		cfg.Host,
+		cfg.Port,
+		cfg.User,
+		cfg.Password,
+		cfg.Name,
+		cfg.SSLMode,
+	)
 
 	var err error
 	DB, err = sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatal("Gagal connect DB:", err)
+		return fmt.Errorf("gagal connect DB: %w", err)
 	}
 
 	if err = DB.Ping(); err != nil {
-		log.Fatal("Gagal ping DB:", err)
+		return fmt.Errorf("gagal ping DB: %w", err)
 	}
-	fmt.Println("Database SILOGIS Terkoneksi!")
+
+	log.Println("Database SILOGIS Terkoneksi!")
+	return nil
+}
+
+
+func Close() {
+	if DB != nil {
+		DB.Close()
+	}
 }
