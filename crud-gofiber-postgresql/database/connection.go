@@ -8,9 +8,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-
 var DB *sql.DB
-
 
 type DBConfig struct {
 	Host     string
@@ -20,7 +18,6 @@ type DBConfig struct {
 	Name     string
 	SSLMode  string
 }
-
 
 func Connect(cfg DBConfig) error {
 	connStr := fmt.Sprintf(
@@ -46,7 +43,6 @@ func Connect(cfg DBConfig) error {
 	log.Println("Database SILOGIS Terkoneksi!")
 	return nil
 }
-
 
 func Close() {
 	if DB != nil {

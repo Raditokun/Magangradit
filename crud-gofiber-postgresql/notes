@@ -1,0 +1,29 @@
+D:\radit\Code\magang
+
+//append: to add elements at the end of a slice
+
+Clean Code Strucure:
+
+-App
+[model]
+[repo]
+[service]
+-confige
+-database
+-helper
+-logs
+-middleware
+-route
+{env}
+
+App:The App stores the main stuff of the backend
+
+[Model]:
+-Driver.go storres the data structre/dictionary for the backend and also connect the naming for the SQL database
+
+[repo]:
+-for the sql logic stuff, like the connector for the sql and backend to interact
+
+[service]:
+-for the business logic and validisitation
+

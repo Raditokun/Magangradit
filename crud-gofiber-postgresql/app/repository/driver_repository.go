@@ -6,18 +6,22 @@ import (
 	"time"
 )
 
+//operation
+//CRUD
 type DriverRepository interface {
 	GetAll() ([]model.Driver, error)
 	Update(id string, req model.UpdateDriverRequest) (int64, error)
 	SoftDelete(id string, req model.DeleteDriverRequest) (int64, error)
 }
 
+//method signature
 type driverRepository struct{}
 
 func NewDriverRepository() DriverRepository {
 	return &driverRepository{}
 }
 
+//database schema
 func (r *driverRepository) GetAll() ([]model.Driver, error) {
 	query := `
 		SELECT id, nama, nip, foto, created_at, created_by, updated_at, updated_by 

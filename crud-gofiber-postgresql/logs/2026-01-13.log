@@ -1,1 +1,2 @@
 2026/01/13 16:21:21 main.go:31: gagal ping DB: pq: password authentication failed for user "postgres"
+2026/01/13 16:23:03 connection.go:46: Database SILOGIS Terkoneksi!
