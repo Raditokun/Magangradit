@@ -41,5 +41,6 @@ func SetupRoutes(app *fiber.App) {
 	app.Put("/driver_kendaraan/:id", DriverKendaraanService.UpdateDriverKendaraan)
 	app.Delete("/driver_kendaraan/:id", DriverKendaraanService.SoftDeleteDriverKendaraan)
 
-	
+
 }
+	
