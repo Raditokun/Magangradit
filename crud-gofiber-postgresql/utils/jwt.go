@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"crud-app/models"
+	"crud-app/app/model"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -9,8 +9,8 @@ import (
 
 var jwtSecret = []byte("a_very_long_secreate_key_that_is_a_secreat_key_i_think")
 
-func GenerateToken(user models.Users) (string, error) {
-	claims := models.JWTClaims{
+func GenerateToken(user model.Users) (string, error) {
+	claims := model.JWTClaims{
 		UserID: user.ID,
 		Nip:    user.Nip,
 		Role:   user.Role,
@@ -24,8 +24,8 @@ func GenerateToken(user models.Users) (string, error) {
 	return token.SignedString(jwtSecret)
 }
 
-func ValidateToken(tokenString string) (*models.JWTClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &models.JWTClaims{},
+func ValidateToken(tokenString string) (*model.JWTClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &model.JWTClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			return jwtSecret, nil
 		})
@@ -33,7 +33,7 @@ func ValidateToken(tokenString string) (*models.JWTClaims, error) {
 		return nil, err
 	}
 
-	if claims, ok := token.Claims.(*models.JWTClaims); ok && token.Valid {
+	if claims, ok := token.Claims.(*model.JWTClaims); ok && token.Valid {
 		return claims, nil
 	}
 

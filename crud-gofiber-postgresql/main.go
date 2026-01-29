@@ -2,17 +2,16 @@ package main
 
 import (
 	"crud-app/config"
-	
-	
+
 	"fmt"
-      
+
+	"crud-app/app/model"
 	"crud-app/database"
 	"crud-app/middleware"
-	"crud-app/models"
 	"crud-app/utils"
 	"database/sql"
 	"log"
-	
+
 	"strconv"
 	"time"
 
@@ -20,16 +19,14 @@ import (
 )
 
 func main() {
-	
+
 	config.LoadEnv()
 
-	
 	logFile := config.SetupLogger()
 	if logFile != nil {
 		defer logFile.Close()
 	}
 
-	
 	dbConfig := database.DBConfig{
 		Host:     config.AppConfig.DBHost,
 		Port:     config.AppConfig.DBPort,
@@ -44,7 +41,6 @@ func main() {
 	}
 	defer database.Close()
 
-	
 	app := config.NewApp()
 
 	fmt.Printf("Server starting on port %s...", config.AppConfig.AppPort)
@@ -56,7 +52,6 @@ func setupRoutes(app *fiber.App) {
 
 	api.Post("/login", login)
 
-	
 	api.Get("/hash/:password", func(c *fiber.Ctx) error {
 		password := c.Params("password")
 		hash, err := utils.HashPassword(password)
@@ -83,7 +78,7 @@ func login(c *fiber.Ctx) error {
 	log.Printf("DEBUG: Raw body: %q", string(c.Body()))
 	log.Printf("DEBUG: Content-Type header: %q", c.Get("Content-Type"))
 
-	var req models.LoginRequest
+	var req model.LoginRequest
 	if err := c.BodyParser(&req); err != nil {
 		log.Printf("DEBUG: BodyParser error: %v", err)
 		return c.Status(400).JSON(fiber.Map{
@@ -100,7 +95,7 @@ func login(c *fiber.Ctx) error {
 		})
 	}
 
-	var user models.Users
+	var user model.Users
 	var passwordHash string
 	err := database.DB.QueryRow(`
 	SELECT id, role, nip, email, password_hash, status, created_at, created_by, updated_at, updated_by 
@@ -138,7 +133,7 @@ func login(c *fiber.Ctx) error {
 		})
 	}
 
-	response := models.LoginResponse{
+	response := model.LoginResponse{
 		User:  user,
 		Token: token,
 	}
@@ -182,10 +177,10 @@ func getAlluser(c *fiber.Ctx) error {
 	}
 	defer rows.Close()
 
-	var userlist []models.User
+	var userlist []model.User
 
 	for rows.Next() {
-		var u models.User
+		var u model.User
 		err := rows.Scan(
 			&u.ID, &u.Role, &u.Nip, &u.Email, &u.Status, &u.CreatedAt, &u.CreatedBy, &u.UpdatedAt, &u.UpdatedBy,
 		)
@@ -216,7 +211,7 @@ func getuserByID(c *fiber.Ctx) error {
 
 	log.Printf("User %s mengakses GET /api/user/%d", nip, id)
 
-	var u models.User
+	var u model.User
 	row := database.DB.QueryRow(`
 	SELECT id, role, nip, email, status, created_at, created_by, updated_at, updated_by 
 	FROM users
@@ -242,7 +237,7 @@ func createUser(c *fiber.Ctx) error {
 	nip := c.Locals("nip").(string)
 	log.Printf("Admin %s menambah user baru", nip)
 
-	var req models.CreateUserRequest
+	var req model.CreateUserRequest
 
 	if err := c.BodyParser(&req); err != nil {
 		return c.Status(400).JSON(fiber.Map{
@@ -268,7 +263,7 @@ func createUser(c *fiber.Ctx) error {
 		})
 	}
 
-	var newUser models.User
+	var newUser model.User
 	row := database.DB.QueryRow(`
 	 SELECT id, role, nip, email, status, created_at, created_by, updated_at, updated_by
 	 FROM users
@@ -296,7 +291,7 @@ func updateUser(c *fiber.Ctx) error {
 
 	log.Printf("Admin %s mengupdate User ID %d", nip, id)
 
-	var req models.UpdateUserRequest
+	var req model.UpdateUserRequest
 	if err := c.BodyParser(&req); err != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"error": "body invalid",
@@ -328,7 +323,7 @@ func updateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	var updatedUser models.User
+	var updatedUser model.User
 	row := database.DB.QueryRow(
 		`SELECT id, role, nip, email, status, created_at, created_by, updated_at, updated_by 
 	FROM users

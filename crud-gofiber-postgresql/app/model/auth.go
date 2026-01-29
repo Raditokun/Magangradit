@@ -27,7 +27,7 @@ type LoginResponse struct {
 	User  Users  `json:"user"`
 	Token string `json:"token"`
 }
-
+//auth
 type JWTClaims struct {
 	UserID int    `json:"user_id"`
 	Nip    string `json:"nip"`
