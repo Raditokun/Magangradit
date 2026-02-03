@@ -9,7 +9,7 @@ import (
 
 var jwtSecret = []byte("a_very_long_secreate_key_that_is_a_secreat_key_i_think")
 
-func GenerateToken(user model.Users) (string, error) {
+func GenerateToken(user model.User) (string, error) {
 	claims := model.JWTClaims{
 		UserID: user.ID,
 		Nip:    user.Nip,

@@ -18,6 +18,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// @sologis
+// @version 1.0
+// @description API untuk mengelola data user dengan MongoDB menggunakan Clean Architecture
+// @host localhost:3002
+// @BasePath /api/v1
+// @schemes http
+
 func main() {
 
 	config.LoadEnv()
@@ -95,7 +102,7 @@ func login(c *fiber.Ctx) error {
 		})
 	}
 
-	var user model.Users
+	var user model.User
 	var passwordHash string
 	err := database.DB.QueryRow(`
 	SELECT id, role, nip, email, password_hash, status, created_at, created_by, updated_at, updated_by 
