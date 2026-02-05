@@ -21,7 +21,7 @@ func NewRoleService() *RoleService {
 	}
 }
 
-// GetAllRoles returns all roles
+
 func (s *RoleService) GetAllRoles(c *fiber.Ctx) error {
 	nip := c.Locals("nip").(string)
 	log.Printf("User %s mengakses GET /api/role", nip)
@@ -34,7 +34,7 @@ func (s *RoleService) GetAllRoles(c *fiber.Ctx) error {
 	return helper.Success(c, roles, "Data role berhasil diambil")
 }
 
-// GetRoleByID returns a single role by ID
+
 func (s *RoleService) GetRoleByID(c *fiber.Ctx) error {
 	nip := c.Locals("nip").(string)
 	id, err := strconv.Atoi(c.Params("id"))
@@ -55,7 +55,7 @@ func (s *RoleService) GetRoleByID(c *fiber.Ctx) error {
 	return helper.Success(c, role, "Data role berhasil diambil")
 }
 
-// CreateRole creates a new role (admin only)
+
 func (s *RoleService) CreateRole(c *fiber.Ctx) error {
 	nip := c.Locals("nip").(string)
 	log.Printf("Admin %s menambah role baru", nip)
@@ -83,7 +83,7 @@ func (s *RoleService) CreateRole(c *fiber.Ctx) error {
 	})
 }
 
-// UpdateRole updates an existing role (admin only)
+
 func (s *RoleService) UpdateRole(c *fiber.Ctx) error {
 	nip := c.Locals("nip").(string)
 	id, err := strconv.Atoi(c.Params("id"))
@@ -116,7 +116,7 @@ func (s *RoleService) UpdateRole(c *fiber.Ctx) error {
 	return helper.Success(c, role, "Role berhasil di update")
 }
 
-// DeleteRole soft deletes a role (admin only)
+
 func (s *RoleService) DeleteRole(c *fiber.Ctx) error {
 	adminNip := c.Locals("nip").(string)
 	id, err := strconv.Atoi(c.Params("id"))
@@ -126,7 +126,7 @@ func (s *RoleService) DeleteRole(c *fiber.Ctx) error {
 
 	log.Printf("Admin %s menghapus Role ID %d", adminNip, id)
 
-	// Check if role exists
+	
 	_, err = s.repo.GetByID(id)
 	if err != nil {
 		if err == sql.ErrNoRows {

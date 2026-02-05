@@ -21,7 +21,6 @@ func NewAuthService() *AuthService {
 	}
 }
 
-// Login authenticates a user and returns a JWT token
 func (s *AuthService) Login(c *fiber.Ctx) error {
 	log.Printf("DEBUG: Raw body: %q", string(c.Body()))
 	log.Printf("DEBUG: Content-Type header: %q", c.Get("Content-Type"))
@@ -65,7 +64,6 @@ func (s *AuthService) Login(c *fiber.Ctx) error {
 		})
 	}
 
-	// Convert to User (without password)
 	user := userWithPassword.ToUser()
 
 	token, err := utils.GenerateToken(user)
@@ -87,7 +85,6 @@ func (s *AuthService) Login(c *fiber.Ctx) error {
 	})
 }
 
-// GetProfile returns the authenticated user's profile
 func (s *AuthService) GetProfile(c *fiber.Ctx) error {
 	userID := c.Locals("user_id").(int)
 	nip := c.Locals("nip").(string)
@@ -104,7 +101,6 @@ func (s *AuthService) GetProfile(c *fiber.Ctx) error {
 	})
 }
 
-// HashPassword is a development utility to generate password hashes
 func (s *AuthService) HashPassword(c *fiber.Ctx) error {
 	password := c.Params("password")
 	hash, err := utils.HashPassword(password)

@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
 // @sologis
@@ -24,7 +25,6 @@ import (
 // @host localhost:3002
 // @BasePath /api/v1
 // @schemes http
-
 func main() {
 
 	config.LoadEnv()

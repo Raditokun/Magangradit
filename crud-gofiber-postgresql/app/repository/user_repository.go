@@ -101,7 +101,6 @@ func (r *userRepository) Update(id int, req model.UpdateUserRequest) (*model.Use
 }
 
 func (r *userRepository) Delete(id int) error {
-	// Check if user exists first
 	var exists bool
 	err := database.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM users WHERE id = $1)", id).Scan(&exists)
 	if err != nil {

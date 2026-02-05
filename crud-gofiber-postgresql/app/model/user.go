@@ -14,7 +14,6 @@ type User struct {
 	UpdatedBy *string    `json:"updated_by"`
 }
 
-// UserWithPassword includes password hash for authentication queries
 type UserWithPassword struct {
 	ID           int        `json:"id"`
 	Role         string     `json:"role"`
@@ -28,7 +27,6 @@ type UserWithPassword struct {
 	UpdatedBy    *string    `json:"updated_by"`
 }
 
-// ToUser converts UserWithPassword to User (without password)
 func (u *UserWithPassword) ToUser() User {
 	return User{
 		ID:        u.ID,
